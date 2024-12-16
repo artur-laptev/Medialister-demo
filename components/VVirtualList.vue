@@ -16,43 +16,30 @@
           transform: `translateY(${virtualRow.start}px)`,
         }"
       >
-        <template v-if="virtualRow.index + 1 > items.length - 1">
-          <div
-            v-if="hasNextPage"
-            class="flex justify-center items-center pt-5"
-          >
-            <VSpinner />
-          </div>
-          <template v-else>
-            Nothing more to load
-          </template>
-        </template>
-        <template v-else>
-          <slot :item="items[virtualRow.index]" />
-        </template>
+        <slot :item="items[virtualRow.index]" />
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup generic="T extends Record<string, unknown>">
+<script lang="ts" setup generic="T">
 import { useVirtualizer } from '@tanstack/vue-virtual'
 
 const props = defineProps<{
   items: T[]
-  hasNextPage: boolean
-  isFetchingNextPage: boolean
+  initialOffset: number
 }>()
 
 const emit = defineEmits<{
-  loadMore: []
+  updateOffset: [number]
 }>()
 
 const parentRef = ref<HTMLElement | null>(null)
 
 const rowVirtualizerOptions = computed(() => ({
   count: props.items.length,
-  overscan: 3,
+  initialOffset: props.initialOffset,
+  overscan: 10,
   getScrollElement: () => parentRef.value,
   estimateSize: () => 73,
 }))
@@ -63,15 +50,9 @@ const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems())
 
 const totalSize = computed(() => rowVirtualizer.value.getTotalSize())
 
-watchEffect(() => {
-  const [lastItem] = [...virtualRows.value].reverse()
-
-  if (!lastItem) {
-    return
-  }
-
-  if (lastItem.index >= props.items.length - 1 && props.hasNextPage && !props.isFetchingNextPage) {
-    emit('loadMore');
+watch(() => rowVirtualizer.value.scrollOffset, (offset) => {
+  if (offset) {
+    emit('updateOffset', offset)
   }
 })
 </script>

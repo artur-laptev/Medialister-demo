@@ -30,10 +30,9 @@
 
         <VVirtualList
           :items="sortedRows"
-          :has-next-page="hasNextPage"
-          :is-fetching-next-page="isFetchingNextPage"
+          :initial-offset="initialOffset"
           class="h-[85vh]"
-          @load-more="fetchNextPage"
+          @update-offset="onUpdateOffset"
         >
           <template #default="{ item }">
             <VListItem
@@ -55,23 +54,26 @@ useHead({
   bodyAttrs: { class: 'h-full bg-white dark:bg-slate-800 antialiased' },
 })
 
+const initialOffset = useCookie('offset', { default: () => 0})
+
 const {
   data,
   error,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
   isPending,
   isError,
   suspense,
-} = useInfiniteQuery({
+} = useQuery({
   queryKey: ['companies'],
-  queryFn: () => $fetch('/api/companies'),
-  initialPageParam: true, // because we don't have a real pagination
-  getNextPageParam: () => true // because we don't have a real pagination
+  queryFn: () => $fetch('/api/companies').then((res) => res.data),
+  refetchOnMount: false,
+  refetchOnWindowFocus: false,
+  refetchOnReconnect: false,
+  retry: false,
+  staleTime: Number.POSITIVE_INFINITY,
+  gcTime: Number.POSITIVE_INFINITY,
 })
 
-const allRows = computed(() => data.value ? data.value.pages.flatMap((p) => p.data) : [])
+const allRows = computed(() => data.value || [])
 
 const {
   data: sortedRows,
@@ -79,6 +81,10 @@ const {
   isSorted,
   sortBy,
 } = useSort(allRows);
+
+const onUpdateOffset = (offset: number) => {
+  initialOffset.value = offset;
+}
 
 onServerPrefetch(async () => {
   await suspense()

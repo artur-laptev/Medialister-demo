@@ -13,9 +13,11 @@ const createRandomCompany = () => <Company>({
   name: faker.company.name(),
   avatar: faker.image.avatar(),
   website: faker.internet.url(),
-  views: faker.number.int(1000000),
+  views: faker.number.int(1_000_000),
 })
 
-export const getCompanies = (limit: number) => faker.helpers.multiple(createRandomCompany, {
-  count: limit
+const data = faker.helpers.multiple(createRandomCompany, {
+  count: 150_000
 })
+
+export const getCompanies = () => data

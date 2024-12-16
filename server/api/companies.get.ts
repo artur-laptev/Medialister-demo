@@ -1,7 +1,7 @@
 import { getCompanies } from "../lib/faker";
 
 export default defineEventHandler(() => {
-  const data = getCompanies(100)
+  const data = getCompanies()
 
   return { data };
 })
