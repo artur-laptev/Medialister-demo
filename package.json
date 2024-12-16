@@ -1,0 +1,29 @@
+{
+  "name": "medialister-app",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@8.15.4",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "@hebilicious/vue-query-nuxt": "^0.3.0",
+    "@tanstack/vue-query": "^5.62.7",
+    "@tanstack/vue-virtual": "^3.11.1",
+    "nuxt": "^3.14.1592",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^0.7.3",
+    "@nuxtjs/tailwindcss": "6.12.2",
+    "eslint": "^9.16.0",
+    "sass": "^1.83.0",
+    "typescript": "^5.7.2"
+  }
+}
