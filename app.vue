@@ -67,8 +67,8 @@ const {
 } = useInfiniteQuery({
   queryKey: ['companies'],
   queryFn: () => $fetch('/api/companies'),
-  initialPageParam: true,
-  getNextPageParam: () => true
+  initialPageParam: true, // because we don't have a real pagination
+  getNextPageParam: () => true // because we don't have a real pagination
 })
 
 const allRows = computed(() => data.value ? data.value.pages.flatMap((p) => p.data) : [])
