@@ -1,6 +1,10 @@
 # Medialister
 
-## [Live demo](https://medialister.netlify.app/)
+
+## Live Demo:
+
+### [main branch version](https://medialister.netlify.app/)
+### [gh-pages branch version](https://artur-laptev.github.io/medialister-demo/)
 
 ## Setup
 
