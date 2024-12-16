@@ -1,5 +1,7 @@
 # Medialister
 
+## [Live demo](https://medialister.netlify.app/)
+
 ## Setup
 
 Make sure to install dependencies:
