@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script lang="ts" setup generic="T extends Record<string, unknown>">
+<script lang="ts" setup generic="T">
 import { useVirtualizer } from '@tanstack/vue-virtual'
 
 const props = defineProps<{
